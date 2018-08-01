@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Penrose Generator</title>
+	<style type="text/css">
+		html, body {
+			height: 100%;
+			width: 100%;
+			overflow-x: hidden;
+			overflow-y: hidden;
+		}
+		@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+	    	.div1, .div2 {
+	        	float: none !important;
+	    	}
+	    	.div2{
+	    		height: 100vh;
+	    	}
+		}
+		@media only screen and (min-device-width: 490px) {
+	    	.div1, .div2{
+	        	float: left !important;
+
+	    	}
+	    	.div1 {
+	    		width: 25vw;
+	    		height: 100vh;
+	    	}
+	    	.div2 {
+	    		width: 70vw;
+	    		height: 100vh;
+	    	}
+		}
+
+	</style>
+</head>
+<body>
+	<div>
+		<div class="div1" style="float: left; margin-left: 15px;" onresize="resizeCanvas()">
+			<center>
+				<h1> Penrose Tiling </h1> <br>
+				<form>
+					<code>
+						Iterations (1-12): <input type="text" name="iterator" id="iterator"> <br><br>
+						Color 1 (hex): <input type="text" name="iterator" id="color1"> <br><br>
+						Color 2 (hex) : <input type="text" name="iterator" id="color2"> <br><br>
+						<strong>
+							Type 1 (10) &nbsp;&nbsp;&nbsp;
+						</strong>
+						<input type="radio" value="1" name="fractal" onclick="selectFractal(1)">
+						<strong>
+							&nbsp;&nbsp; Type 2 (10) &nbsp;&nbsp;&nbsp;
+						</strong>
+				  		<input type="radio" value="2" name="fractal" onclick="selectFractal(2)">
+				  		<br><br>			  		
+				  		<input type="button" name="button" value="GENERATE" onclick="Canvas()">
+					</code>
+				</form>
+			</center>
+		</div>
+		<div id="div2" class="div2" style="float: left;">
+			<canvas id="penroseCanvas" style="border:1px solid #000000;"></canvas>
+		</div>
+	</div>
+
+</body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.0.4/math.min.js"></script>
+<script type="text/javascript" src="penrose.js"></script>
+</html>
