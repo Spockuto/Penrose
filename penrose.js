@@ -64,8 +64,8 @@ function GenerateTypeTwo(count) {
 			}
 			else {
 				var p = math.add(triangle.c, math.subtract(triangle.a, triangle.c).div(goldenRatio));
-				result.push(createTriangle(0, triangle.b, p, triangle.a));
-				result.push(createTriangle(1, p , triangle.c , triangle.b ));				
+				result.push(createTriangle(1, triangle.b, p, triangle.a));
+				result.push(createTriangle(0, p , triangle.c , triangle.b ));
 			}
 		});
 		triangleSet = result;
