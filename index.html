@@ -1,69 +1,65 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title>Penrose Generator</title>
-	<style type="text/css">
-		html, body {
-			height: 100%;
-			width: 100%;
-			overflow-x: hidden;
-			overflow-y: hidden;
-		}
-		@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-	    	.div1, .div2 {
-	        	float: none !important;
-	    	}
-	    	.div2{
-	    		height: 100vh;
-	    	}
-		}
-		@media only screen and (min-device-width: 490px) {
-	    	.div1, .div2{
-	        	float: left !important;
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="column-1 box">
+      </div>
+      <div class="column-2 box">
+        <canvas id="canvas" height="150" width="150"></canvas>
+      </div>
+   </div>
+    
+    <!-- Note the usage of `type=module` here as this is an ES6 module -->
+    <script type="module">
+      // Use ES module import syntax to import functionality from the module
+      // that we have compiled.
+      //
+      // Note that the `default` import is an initialization function which
+      // will "boot" the module and make it ready to use. Currently browsers
+      // don't support natively imported WebAssembly as an ES module, but
+      // eventually the manual initialization won't be required!
+      import init, { add } from './pkg/without_a_bundler.js';
 
-	    	}
-	    	.div1 {
-	    		width: 25vw;
-	    		height: 100vh;
-	    	}
-	    	.div2 {
-	    		width: 70vw;
-	    		height: 100vh;
-	    	}
-		}
+      async function run() {
+        // First up we need to actually load the wasm file, so we use the
+        // default export to inform it where the wasm file is located on the
+        // server, and then we wait on the returned promise to wait for the
+        // wasm to be loaded.
+        //
+        // It may look like this: `await init('./pkg/without_a_bundler_bg.wasm');`,
+        // but there is also a handy default inside `init` function, which uses
+        // `import.meta` to locate the wasm file relatively to js file.
+        //
+        // Note that instead of a string you can also pass in any of the
+        // following things:
+        //
+        // * `WebAssembly.Module`
+        //
+        // * `ArrayBuffer`
+        //
+        // * `Response`
+        //
+        // * `Promise` which returns any of the above, e.g. `fetch("./path/to/wasm")`
+        //
+        // This gives you complete control over how the module is loaded
+        // and compiled.
+        //
+        // Also note that the promise, when resolved, yields the wasm module's
+        // exports which is the same as importing the `*_bg` module in other
+        // modes
+        await init();
 
-	</style>
-</head>
-<body>
-	<div>
-		<div class="div1" style="float: left; margin-left: 15px;" onresize="resizeCanvas()">
-			<center>
-				<h1> Penrose Tiling </h1> <br>
-				<form>
-					<code>
-						Iterations (1-12): <input type="text" name="iterator" id="iterator"> <br><br>
-						Color 1 (hex): <input type="text" name="iterator" id="color1"> <br><br>
-						Color 2 (hex) : <input type="text" name="iterator" id="color2"> <br><br>
-						<strong>
-							Type 1 (10) &nbsp;&nbsp;&nbsp;
-						</strong>
-						<input type="radio" value="1" name="fractal" onclick="selectFractal(1)">
-						<strong>
-							&nbsp;&nbsp; Type 2 (10) &nbsp;&nbsp;&nbsp;
-						</strong>
-				  		<input type="radio" value="2" name="fractal" onclick="selectFractal(2)">
-				  		<br><br>			  		
-				  		<input type="button" name="button" value="GENERATE" onclick="Canvas()">
-					</code>
-				</form>
-			</center>
-		</div>
-		<div id="div2" class="div2" style="float: left;">
-			<canvas id="penroseCanvas" style="border:1px solid #000000;"></canvas>
-		</div>
-	</div>
+        // And afterwards we can use all the functionality defined in wasm.
+        const result = add(1, 2);
+        console.log(`1 + 2 = ${result}`);
+        if (result !== 3)
+          throw new Error("wasm addition doesn't work!");
+      }
 
-</body>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.0.4/math.min.js"></script>
-<script type="text/javascript" src="penrose.js"></script>
+      run();
+    </script>
+  </body>
 </html>
