@@ -187,12 +187,12 @@ export function main() {
 * @param {number} iterations
 * @param {boolean} penrose_type
 */
-export function generate_canvas(color1, color2, iterations, penrose_type) {
+export function generateCanvas(color1, color2, iterations, penrose_type) {
     const ptr0 = passStringToWasm0(color1, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
     const ptr1 = passStringToWasm0(color2, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len1 = WASM_VECTOR_LEN;
-    wasm.generate_canvas(ptr0, len0, ptr1, len1, iterations, penrose_type);
+    wasm.generateCanvas(ptr0, len0, ptr1, len1, iterations, penrose_type);
 }
 
 function isLikeNone(x) {

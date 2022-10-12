@@ -1,8 +1,15 @@
-use num::complex::Complex;
+use num_complex::Complex;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::console;
+
+#[macro_use]
+extern crate lazy_static;
+
+lazy_static! {
+   static ref GOLDEN_RATIO: f64 = (1.0 + (5.0 as f64).sqrt()) / 2.0;
+}
 
 struct Triangle {
     color: bool,
@@ -11,13 +18,15 @@ struct Triangle {
     c: Complex<f64>,
 }
 
+
+
 // Called when the wasm module is instantiated
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     Ok(())
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = generateCanvas)]
 pub fn generate_canvas(color1: String, color2: String, iterations: u32, penrose_type: bool) -> () {
     let document = web_sys::window().unwrap().document().unwrap();
     let canvas = document.get_element_by_id("canvas").unwrap();
@@ -91,7 +100,6 @@ pub fn generate_canvas(color1: String, color2: String, iterations: u32, penrose_
 }
 
 fn penrose_type_1(steps: u32, radius: f64) -> Vec<Triangle> {
-    let gr: f64 = (1.0 + (5.0 as f64).sqrt()) / 2.0;
     let mut triangle_set: Vec<Triangle> = vec![];
 
     let init_set = 10;
@@ -122,7 +130,7 @@ fn penrose_type_1(steps: u32, radius: f64) -> Vec<Triangle> {
         let mut result: Vec<Triangle> = vec![];
         for t in &triangle_set {
             if t.color {
-                let p = t.a + ((t.b - t.a) / gr);
+                let p = t.a + ((t.b - t.a) / *GOLDEN_RATIO);
                 result.push(Triangle {
                     color: true,
                     a: t.c,
@@ -136,8 +144,8 @@ fn penrose_type_1(steps: u32, radius: f64) -> Vec<Triangle> {
                     c: t.a,
                 });
             } else {
-                let q = t.b + ((t.a - t.b) / gr);
-                let r = t.b + ((t.c - t.b) / gr);
+                let q = t.b + ((t.a - t.b) / *GOLDEN_RATIO);
+                let r = t.b + ((t.c - t.b) / *GOLDEN_RATIO);
                 result.push(Triangle {
                     color: false,
                     a: r,
@@ -164,7 +172,6 @@ fn penrose_type_1(steps: u32, radius: f64) -> Vec<Triangle> {
 }
 
 fn penrose_type_2(steps: u32, radius: f64) -> Vec<Triangle> {
-    let gr: f64 = (1.0 + (5.0 as f64).sqrt()) / 2.0;
     let mut triangle_set: Vec<Triangle> = vec![];
 
     let init_set = 10;
@@ -195,8 +202,8 @@ fn penrose_type_2(steps: u32, radius: f64) -> Vec<Triangle> {
         let mut result: Vec<Triangle> = vec![];
         for t in &triangle_set {
             if t.color {
-                let q = t.a + ((t.b - t.a) / gr);
-                let r = t.b + ((t.c - t.b) / gr);
+                let q = t.a + ((t.b - t.a) / *GOLDEN_RATIO);
+                let r = t.b + ((t.c - t.b) / *GOLDEN_RATIO);
                 result.push(Triangle {
                     color: false,
                     a: r,
@@ -216,15 +223,15 @@ fn penrose_type_2(steps: u32, radius: f64) -> Vec<Triangle> {
                     c: r,
                 });
             } else {
-                let p = t.c + ((t.a - t.c) / gr);
+                let p = t.c + ((t.a - t.c) / *GOLDEN_RATIO);
                 result.push(Triangle {
-                    color: true,
+                    color: false,
                     a: t.b,
                     b: p,
                     c: t.a,
                 });
                 result.push(Triangle {
-                    color: false,
+                    color: true,
                     a: p,
                     b: t.c,
                     c: t.b,
