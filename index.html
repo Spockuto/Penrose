@@ -1,65 +1,46 @@
 <html>
-  <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
     <link rel="stylesheet" href="index.css">
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container">
-      <div class="column-1 box">
-      </div>
-      <div class="column-2 box">
-        <canvas id="canvas" height="150" width="150"></canvas>
-      </div>
-   </div>
-    
-    <!-- Note the usage of `type=module` here as this is an ES6 module -->
+        <div class="column-1">
+            <div class="box">
+                <h1><b>Penrose Tiling</b></h1>
+                <form>
+                    <p>Iterations <input type="number" class="no-outline" placeholder="10" value="10" id="iterations" min="1" max="14"></p>
+                    <p>Color #1 <input type="text" class="no-outline" placeholder="#001111" value="#001111" id="color1"></p>
+                    <p>Color #2 <input type="text" class="no-outline" placeholder="#64FFDA" value="#64FFDA" id="color2"></p>
+                    <p>Type 1 / 2 <input type="checkbox" id="switch" /><label for="switch">Toggle</label></p>
+                    <input type="submit" value="Generate" id="generate" />
+                </form>
+            </div>
+        </div>
+        <div class="column-2" id="canvasdiv">
+            <canvas id="canvas" height="150" width="150"></canvas>
+        </div>
+    </div>
     <script type="module">
-      // Use ES module import syntax to import functionality from the module
-      // that we have compiled.
-      //
-      // Note that the `default` import is an initialization function which
-      // will "boot" the module and make it ready to use. Currently browsers
-      // don't support natively imported WebAssembly as an ES module, but
-      // eventually the manual initialization won't be required!
-      import init, { add } from './pkg/without_a_bundler.js';
-
-      async function run() {
-        // First up we need to actually load the wasm file, so we use the
-        // default export to inform it where the wasm file is located on the
-        // server, and then we wait on the returned promise to wait for the
-        // wasm to be loaded.
-        //
-        // It may look like this: `await init('./pkg/without_a_bundler_bg.wasm');`,
-        // but there is also a handy default inside `init` function, which uses
-        // `import.meta` to locate the wasm file relatively to js file.
-        //
-        // Note that instead of a string you can also pass in any of the
-        // following things:
-        //
-        // * `WebAssembly.Module`
-        //
-        // * `ArrayBuffer`
-        //
-        // * `Response`
-        //
-        // * `Promise` which returns any of the above, e.g. `fetch("./path/to/wasm")`
-        //
-        // This gives you complete control over how the module is loaded
-        // and compiled.
-        //
-        // Also note that the promise, when resolved, yields the wasm module's
-        // exports which is the same as importing the `*_bg` module in other
-        // modes
-        await init();
-
-        // And afterwards we can use all the functionality defined in wasm.
-        const result = add(1, 2);
-        console.log(`1 + 2 = ${result}`);
-        if (result !== 3)
-          throw new Error("wasm addition doesn't work!");
-      }
-
-      run();
+        import init, {generate_canvas} from './pkg/without_a_bundler.js';
+		
+		document.getElementById("generate").addEventListener("click", function(event){
+			event.preventDefault()
+			var iterations = document.getElementById("iterations").value;
+			var color1 = document.getElementById("color1").value;
+			var color2 = document.getElementById("color2").value;
+			var penrose_type = document.getElementById("switch").checked;
+			run(color1, color2, iterations, penrose_type);
+		});
+		
+		async function run(color1, color2, iterations, penrose_type) {
+			await init();
+			generate_canvas(color1, color2, iterations, penrose_type);
+		}
     </script>
-  </body>
+</body>
+
 </html>

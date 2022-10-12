@@ -4,18 +4,19 @@
 */
 export function main(): void;
 /**
-* @param {number} a
-* @param {number} b
-* @returns {number}
+* @param {string} color1
+* @param {string} color2
+* @param {number} iterations
+* @param {boolean} penrose_type
 */
-export function add(a: number, b: number): number;
+export function generate_canvas(color1: string, color2: string, iterations: number, penrose_type: boolean): void;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly main: () => void;
-  readonly add: (a: number, b: number) => number;
+  readonly generate_canvas: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
