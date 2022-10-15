@@ -84,6 +84,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e82dad04139b71a90c080c8463fe0dc7902db5192d939bd0950f074d014339e1"
 
 [[package]]
+name = "penrose-tiling"
+version = "0.1.0"
+dependencies = [
+ "js-sys",
+ "lazy_static",
+ "num-complex",
+ "time",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -190,16 +202,4 @@ checksum = "bcda906d8be16e728fd5adc5b729afad4e444e106ab28cd1c7256e54fa61510f"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "without-a-bundler"
-version = "0.1.0"
-dependencies = [
- "js-sys",
- "lazy_static",
- "num-complex",
- "time",
- "wasm-bindgen",
- "web-sys",
 ]

@@ -1,15 +1,15 @@
 {
-  "name": "without-a-bundler",
+  "name": "penrose-tiling",
   "collaborators": [
-    "The wasm-bindgen Developers"
+    "Spockuto"
   ],
   "version": "0.1.0",
   "files": [
-    "without_a_bundler_bg.wasm",
-    "without_a_bundler.js",
-    "without_a_bundler.d.ts"
+    "penrose_tiling_bg.wasm",
+    "penrose_tiling.js",
+    "penrose_tiling.d.ts"
   ],
-  "module": "without_a_bundler.js",
-  "types": "without_a_bundler.d.ts",
+  "module": "penrose_tiling.js",
+  "types": "penrose_tiling.d.ts",
   "sideEffects": false
 }
