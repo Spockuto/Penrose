@@ -1,0 +1,15 @@
+{
+  "name": "penrose-tiling",
+  "collaborators": [
+    "Spockuto"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "penrose_tiling_bg.wasm",
+    "penrose_tiling.js",
+    "penrose_tiling.d.ts"
+  ],
+  "module": "penrose_tiling.js",
+  "types": "penrose_tiling.d.ts",
+  "sideEffects": false
+}

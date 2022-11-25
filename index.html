@@ -1,0 +1,46 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="column-1">
+            <div class="box">
+                <h1><b>Penrose Tiling</b></h1>
+                <form>
+                    <p>Iterations <input type="number" class="no-outline" placeholder="7" value="7" id="iterations" min="1" max="14"></p>
+                    <p>Color #1 <input type="text" class="no-outline" placeholder="#40C4FF" value="#40C4FF" id="color1"></p>
+                    <p>Color #2 <input type="text" class="no-outline" placeholder="#64FFDA" value="#64FFDA" id="color2"></p>
+                    <p>Type 1 / 2 <input type="checkbox" id="switch" /><label for="switch">Toggle</label></p>
+                    <input type="submit" value="Generate" id="generate" />
+                </form>
+            </div>
+        </div>
+        <div class="column-2" id="canvasdiv">
+            <canvas id="canvas" height="150" width="150"></canvas>
+        </div>
+    </div>
+    <script type="module">
+        import init, {generateCanvas} from './pkg/penrose_tiling.js';
+		
+		document.getElementById("generate").addEventListener("click", function(event){
+			event.preventDefault()
+			var iterations = document.getElementById("iterations").value;
+			var color1 = document.getElementById("color1").value;
+			var color2 = document.getElementById("color2").value;
+			var penrose_type = document.getElementById("switch").checked;
+			run(color1, color2, iterations, penrose_type);
+		});
+		
+		async function run(color1, color2, iterations, penrose_type) {
+			await init();
+			generateCanvas(color1, color2, iterations, penrose_type);
+		}
+    </script>
+</body>
+
+</html>
